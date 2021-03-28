@@ -1,11 +1,12 @@
 {
-    "name": "zelda?",
+    "name": "zelda? #2",
     "description": "",
     "dependencies": {
         "device": "*",
         "Timers": "github:microsoft/arcade-timers#v1.1.0",
         "controller": "*",
-        "seesaw": "github:adafruit/pxt-seesaw#v0.0.19"
+        "seesaw": "github:adafruit/pxt-seesaw#v0.0.19",
+        "Sprite Grid": "github:microsoft/arcade-grid#v1.3.0"
     },
     "files": [
         "main.blocks",

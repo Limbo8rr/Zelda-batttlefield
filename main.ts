@@ -5,6 +5,9 @@ namespace SpriteKind {
     export const left = SpriteKind.create()
     export const up = SpriteKind.create()
     export const down = SpriteKind.create()
+    export const fire_dragon = SpriteKind.create()
+    export const blue_wizard_witch = SpriteKind.create()
+    export const mumly = SpriteKind.create()
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     mySprite.setImage(img`
@@ -69,10 +72,10 @@ controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
             `)
     } else if (sword == 3) {
         mySprite.setImage(img`
-            . . . . . 7 7 7 . . . . . . . . 
-            . . . . 7 7 7 7 7 7 . . . . . . 
-            . . . 7 7 7 7 7 7 7 . . . . . . 
-            . . 7 7 7 7 7 7 7 7 7 . . . . . 
+            . . . . . f f f . . . . . . . . 
+            . . . . f 7 7 7 f f . . . . . . 
+            . . . f 7 7 7 7 7 f . . . . . . 
+            . . f 7 7 7 7 7 7 7 f . . . . . 
             . . d 7 7 7 7 7 7 7 d . . . . . 
             . . d 7 7 7 7 7 7 7 d . . . . . 
             . . d d 7 7 7 7 7 d d . . . . . 
@@ -373,9 +376,14 @@ info.onLifeZero(function () {
     200,
     false
     )
-    pause(2300)
-    game.over(false)
+    timer.after(2700, function () {
+        game.over(false)
+    })
 })
+let scartin: Sprite = null
+let wizrobes: Sprite = null
+let fire_ball: Sprite = null
+let firer_splare: Sprite = null
 let sword = 0
 let mySprite: Sprite = null
 mySprite = sprites.create(img`
@@ -400,3 +408,63 @@ controller.moveSprite(mySprite)
 tiles.setTilemap(tilemap`level1`)
 scene.cameraFollowSprite(mySprite)
 sword = 0
+info.setLife(5)
+game.onUpdateInterval(5000, function () {
+    firer_splare = sprites.create(assets.image`fire dragon`, SpriteKind.fire_dragon)
+    fire_ball = sprites.createProjectileFromSprite(img`
+        . 2 . . . . . . . . . . . . 2 2 
+        . . 2 . . . 2 2 2 2 2 2 2 . 2 . 
+        . . . 2 2 2 2 4 4 2 4 4 2 2 . . 
+        . . . 2 2 4 4 4 4 4 4 4 4 2 . . 
+        2 . 2 2 4 4 4 4 f 4 4 f 4 4 2 . 
+        2 2 2 4 4 4 4 4 4 4 4 4 4 4 2 . 
+        2 2 2 4 f 4 4 4 4 4 4 4 4 4 2 2 
+        2 2 2 4 4 4 f 4 4 4 f 4 4 4 4 2 
+        . 2 2 4 4 4 4 4 4 4 4 4 f 4 4 2 
+        . 2 2 2 4 4 4 4 4 4 4 4 4 4 4 2 
+        . . . 2 4 4 f 4 4 f 4 4 4 4 4 2 
+        . . . 2 4 4 4 4 4 4 4 4 4 4 2 2 
+        . . . . 2 2 4 4 4 4 4 f 4 2 2 . 
+        . . . 2 2 2 2 2 4 4 4 2 2 2 2 . 
+        . 2 2 2 . . . . 2 2 2 2 . . . 2 
+        . . . 2 . . . . . . . . . . . . 
+        `, firer_splare, 50, 50)
+    wizrobes = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.blue_wizard_witch)
+    scartin = sprites.create(img`
+        . . . . 1 1 1 1 1 1 1 . . . . . 
+        . . . . 1 d 1 d 1 d 1 . . . . . 
+        . . . . 1 1 1 1 1 1 1 . . . . . 
+        . . . . 1 1 1 1 1 d 1 . . . . . 
+        . . . . d 1 d d d 1 1 . . . . . 
+        . . . . 1 1 1 1 1 1 1 . . . . . 
+        . . . . . 1 1 1 d 1 . . . . . . 
+        . . . d 1 1 1 1 1 1 1 d . . . . 
+        . . d . 1 1 d 1 d 1 1 . 1 . . . 
+        . 1 . . 1 1 1 1 1 1 1 . . 1 . . 
+        . 1 . . 1 d 1 1 d 1 d . . d . . 
+        . . . . 1 1 1 1 1 1 d . . . . . 
+        . . . . d . . . . . 1 . . . . . 
+        . . . . 1 . . . . . d . . . . . 
+        . . . . d . . . . . 1 . . . . . 
+        . . d 1 1 . . . . . d 1 d . . . 
+        `, SpriteKind.mumly)
+    fire_ball.follow(mySprite, 40)
+    scartin.follow(mySprite, 60)
+})
